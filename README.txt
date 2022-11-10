@@ -1,0 +1,1 @@
+This is a program for work with minecraft texturepacks with OptiFine support.
