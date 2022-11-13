@@ -47,7 +47,7 @@ class NewDialog(QDialog):
         if self.outer_path:
             self.outer_directory.mkdir(self.name)
             self.directory.mkdir("assets")
-            copy_icon(self.icon_path, self.path + "/pack.png")
+            copy_file(self.icon_path, self.path + "/pack.png")
             current_path = self.path + "/assets"
             self.directory.cd("assets")
             self.directory.mkdir("minecraft")
@@ -106,6 +106,33 @@ class NewDialog(QDialog):
                     textures_dir.mkdir("painting")
                 if self.c_particle.isChecked():
                     textures_dir.mkdir("particle")
+
+            if (self.c_anim.isChecked() or self.c_better_grass.isChecked() or self.c_cem.isChecked()
+                    or self.c_ctm.isChecked() or self.c_dynamic_light.isChecked() or self.c_emissive.isChecked()
+                    or self.c_gui_o.isChecked() or self.c_lightmap.isChecked() or self.c_loading.isChecked() or self.c_panoramas.isChecked()
+                    or self.c_random_entities.isChecked() or self.c_random_paintings.isChecked() or self.c_sky.isChecked()):
+                self.directory.mkdir("optifine")
+                optifine_dir = QDir(self.path + "/assets/minecraft/optifine")
+                if self.c_anim.isChecked():
+                    optifine_dir.mkdir("anim")
+                if self.c_cem.isChecked():
+                    optifine_dir.mkdir("cem")
+                if self.c_ctm.isChecked():
+                    optifine_dir.mkdir("ctm")
+                if self.c_gui_o.isChecked():
+                    optifine_dir.mkdir("gui")
+                if self.c_loading.isChecked():
+                    optifine_dir.mkdir("loading")
+                if self.c_random_entities.isChecked() or self.c_random_paintings.isChecked():
+                    optifine_dir.mkdir("random")
+                    if self.c_random_entities.isChecked():
+                        optifine_dir.mkdir("random/entity")
+                    if self.c_random_paintings.isChecked():
+                        optifine_dir.mkdir("random/paintings")
+
+
+
+
             self.close()
 
     def cancel(self):

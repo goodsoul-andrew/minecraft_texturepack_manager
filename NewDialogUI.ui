@@ -306,7 +306,7 @@
       <string>Paintings</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="c_particles">
+    <widget class="QCheckBox" name="c_particle">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -459,19 +459,6 @@
       <string>Custom entities</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="c_colormap_o">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>70</y>
-       <width>70</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Colormaps</string>
-     </property>
-    </widget>
     <widget class="QCheckBox" name="c_ctm">
      <property name="geometry">
       <rect>
@@ -496,19 +483,6 @@
      </property>
      <property name="text">
       <string>Animations</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="c_color">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>160</y>
-       <width>91</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Custom colors</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="c_gui_o">
@@ -537,7 +511,7 @@
       <string>Lightmaps</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="c_loading_screen">
+    <widget class="QCheckBox" name="c_loading">
      <property name="geometry">
       <rect>
        <x>170</x>
@@ -619,7 +593,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>220</y>
+       <y>70</y>
        <width>81</width>
        <height>17</height>
       </rect>
@@ -631,8 +605,8 @@
     <widget class="QCheckBox" name="c_random_paintings">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>220</y>
+       <x>10</x>
+       <y>160</y>
        <width>111</width>
        <height>17</height>
       </rect>
