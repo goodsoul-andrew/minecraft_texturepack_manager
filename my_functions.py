@@ -41,7 +41,7 @@ def create_pack_mcmeta(path, version, description):
         pack_mcmeta.write(text)
 
 
-def copy_icon(path, new_path):
+def copy_file(path, new_path):
     with open(new_path, "wb") as new:
         with open(path, "rb") as old:
             temp = b""
@@ -50,3 +50,20 @@ def copy_icon(path, new_path):
             new.write(BytesIO(temp).getbuffer())
 
 
+def create_bettergrass(path):
+    with open(path + "/bettergrass.properties", "w") as bettergrass:
+        s = "grass=true\ndirt_path=true\nmycelium=true\npodzol=true\ncrimson_nylium=true\nwarped_nylium=true\n"
+        s += "grass.snow=true\nmycelium.snow=true\npodzol.snow=true\n"
+        s += "texture.grass=block/grass_block_top\n"
+        s += "texture.grass_side=block/grass_block_side\n"
+        s += "texture.dirt_path=block/dirt_path_top\n"
+        s += "texture.dirt_path_side=block/dirt_path_side\n"
+        s += "texture.mycelium=block/mycelium_top\n"
+        s += "texture.podzol=block/podzol_top\n"
+        s += "texture.crimson_nylium=block/crimson_nylium\n"
+        s += "texture.warped_nylium=block/warped_nylium\n"
+        s += "texture.snow=block/snow"
+        bettergrass.write(s)
+
+
+create_better_grass("C:\Андрей\Minecraft Texturepack manager")
