@@ -21,6 +21,7 @@ class NewDialog(QDialog):
         self.chooseicon.clicked.connect(self.choose_icon)
         self.nameinput.textChanged.connect(self.change_text_pathview)
         self.buttonBox.accepted.connect(self.create_new_texturepack)
+        self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
 
     def choose_folder(self):
@@ -107,7 +108,7 @@ class NewDialog(QDialog):
                 if self.c_particle.isChecked():
                     textures_dir.mkdir("particle")
 
-            if (self.c_anim.isChecked() or self.c_better_grass.isChecked() or self.c_cem.isChecked()
+            if (self.c_anim.isChecked() or self.c_bettergrass.isChecked() or self.c_cem.isChecked()
                     or self.c_ctm.isChecked() or self.c_dynamic_light.isChecked() or self.c_emissive.isChecked()
                     or self.c_gui_o.isChecked() or self.c_lightmap.isChecked() or self.c_loading.isChecked() or self.c_panoramas.isChecked()
                     or self.c_random_entities.isChecked() or self.c_random_paintings.isChecked() or self.c_sky.isChecked()):
@@ -130,14 +131,131 @@ class NewDialog(QDialog):
                     if self.c_random_paintings.isChecked():
                         optifine_dir.mkdir("random/paintings")
 
-
-
+                if self.c_bettergrass.isChecked():
+                    create_bettergrass(self.path + "/assets/minecraft/optifine")
 
             self.close()
 
-    def cancel(self):
-        print("cancelled")
-        self.close()
-
     def hello(self):
         print("Hello")
+
+
+class BetterGrassDialog(QDialog):
+    def __init__(self, path):
+        super().__init__()
+        self.path = path
+        self.open_path = convert_pack_path(path + "/textures")
+        uic.loadUi("BetterGrassDialogUI.ui", self)
+        self.setWindowTitle("Edit bettergrass.properties")
+        self.setup_checkboxes()
+        self.setup_labels()
+        self.grass_pathbutton.clicked.connect(self.change_grass_path)
+        self.grass_side_pathbutton.clicked.connect(self.change_grass_side_path)
+        self.dirt_path_pathbutton.clicked.connect(self.change_dirt_path_path)
+        self.dirt_path_side_pathbutton.clicked.connect(self.change_dirt_path_side_path)
+        self.mycelium_pathbutton.clicked.connect(self.change_mycelium_path)
+        self.podzol_pathbutton.clicked.connect(self.change_podzol_path)
+        self.crimson_nylium_pathbutton.clicked.connect(self.change_crimson_nylium_path)
+        self.warped_nylium_pathbutton.clicked.connect(self.change_warped_nylium_path)
+        self.snow_pathbutton.clicked.connect(self.change_snow_path)
+        self.buttonBox.accepted.connect(self.change_bettergrass)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.accepted.connect(self.reject)
+
+    def setup_checkboxes(self):
+        path = self.path
+        print(path)
+        bg = parse_bettergrass(path)
+        print(bg)
+        if bg["grass"] == True:
+            self.c_grass.setCheckState(2)
+        else:
+            self.c_grass.setCheckState(0)
+        if bg["dirt_path"] == True:
+            self.c_dirt_path.setCheckState(2)
+        else:
+            self.c_dirt_path.setCheckState(0)
+        if bg["mycelium"] == True:
+            self.c_mycelium.setCheckState(2)
+        else:
+            self.c_mycelium.setCheckState(0)
+        if bg["podzol"] == True:
+            self.c_podzol.setCheckState(2)
+        else:
+            self.c_podzol.setCheckState(0)
+        if bg["crimson_nylium"] == True:
+            self.c_crimson_nylium.setCheckState(2)
+        else:
+            self.c_crimson_nylium.setCheckState(0)
+        if bg["warped_nylium"] == True:
+            self.c_warped_nylium.setCheckState(2)
+        else:
+            self.c_warped_nylium.setCheckState(0)
+        if bg["grass_snow"] == True:
+            self.c_grass_snow.setCheckState(2)
+        else:
+            self.c_grass_snow.setCheckState(0)
+        if bg["mycelium_snow"] == True:
+            self.c_mycelium_snow.setCheckState(2)
+        else:
+            self.c_mycelium_snow.setCheckState(0)
+        if bg["podzol_snow"] == True:
+            self.c_podzol_snow.setCheckState(2)
+        else:
+            self.c_podzol_snow.setCheckState(0)
+
+    def setup_labels(self):
+        path = self.path
+        bg = parse_bettergrass(path)
+        self.grass_pathview.setText(bg["texture.grass"])
+        self.grass_side_pathview.setText(bg["texture.grass_side"])
+        self.dirt_path_pathview.setText(bg["texture.dirt_path"])
+        self.dirt_path_side_pathview.setText(bg["texture.dirt_path_side"])
+        self.mycelium_pathview.setText(bg["texture.mycelium"])
+        self.podzol_pathview.setText(bg["texture.podzol"])
+        self.crimson_nylium_pathview.setText(bg["texture.crimson_nylium"])
+        self.warped_nylium_pathview.setText(bg["texture.warped_nylium"])
+        self.snow_pathview.setText(bg["texture.snow"])
+
+    def change_grass_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.grass_pathview.setText(convert_texture_path(new))
+
+    def change_grass_side_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.grass_side_pathview.setText(convert_texture_path(new))
+
+    def change_dirt_path_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.dirt_path_pathview.setText(convert_texture_path(new))
+
+    def change_dirt_path_side_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.dirt_path_side_pathview.setText(convert_texture_path(new))
+
+    def change_mycelium_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.mycelium_pathview.setText(convert_texture_path(new))
+
+    def change_podzol_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.podzol_pathview.setText(convert_texture_path(new))
+
+    def change_crimson_nylium_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.crimson_nylium_pathview.setText(convert_texture_path(new))
+
+    def change_warped_nylium_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.warped_nylium_pathview.setText(convert_texture_path(new))
+
+    def change_snow_path(self):
+        new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
+        self.snow_nylium_pathview.setText(convert_texture_path(new))
+
+    def change_bettergrass(self):
+        pass
+
+    def hello(self):
+        print("hello")
+

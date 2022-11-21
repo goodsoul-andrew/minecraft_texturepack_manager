@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
+from PyQt5.Qt import *
 from my_functions import *
 from my_dialogs import *
 
@@ -17,6 +18,9 @@ class TexturepackManager(QMainWindow):
         self.createMenuBar()
         self.model = QFileSystemModel()
         self.path, self.version, self.description = "", "", ""
+        # self.tree.setContextMenuPolicy(Qt.CustomContextMenu)
+        # self.tree.customContextMenuRequested.connect(self.show_context_menu)
+        self.tree.doubleClicked.connect(self.edit_file)
 
     def createActions(self):
         self.newAction = QAction("New", self)
@@ -27,9 +31,9 @@ class TexturepackManager(QMainWindow):
         self.openAction.setShortcut("Ctrl+O")
         self.openAction.setStatusTip("Open folder as texturepack")
 
-        #self.saveAction = QAction("Save", self)
-        #self.saveAction.setShortcut("Ctrl+S")
-        #self.saveAction.setStatusTip("Save texturepack")
+        self.editTexturepackAction = QAction("Edit texturepack", self)
+        self.editTexturepackAction.setShortcut("Ctrl+E")
+        self.editTexturepackAction.setStatusTip("Edit texturepack")
 
     def createMenuBar(self):
         menuBar = self.menuBar()
@@ -43,31 +47,56 @@ class TexturepackManager(QMainWindow):
         editMenu = menuBar.addMenu("Edit")
         helpMenu = menuBar.addMenu("Help")
 
-    #def createStatusBar(self):
-        #self.statusbar = self.statusBar()
-
     def connectActions(self):
         self.newAction.triggered.connect(self.open_newDialog)
         self.openAction.triggered.connect(self.open_openDialog)
 
     def open_newDialog(self):
         newDialog = NewDialog()
-        newDialog.exec()
-        self.path = newDialog.path
-        self.version = newDialog.version
-        self.description = newDialog.description
-        self.model.setRootPath(newDialog.directory.currentPath())
-        self.tree.setModel(self.model)
-        self.tree.setRootIndex(self.model.index(newDialog.path))
+        print(newDialog.exec())
+        if newDialog.result():
+            self.path = newDialog.path
+            self.version = newDialog.version
+            self.description = newDialog.description
+            self.directory = newDialog.directory
+            self.model.setRootPath(newDialog.directory.currentPath())
+            self.tree.setModel(self.model)
+            self.tree.setRootIndex(self.model.index(newDialog.path))
 
     def open_openDialog(self):
         dirpath = QFileDialog.getExistingDirectory(self, "Choose texturepack", "C:/Users")
         # print(dirpath)
         self.directory = QDir(dirpath)
-        # print(self.directory.currentPath())
+        self.path = dirpath
         self.model.setRootPath(self.directory.currentPath())
         self.tree.setModel(self.model)
         self.tree.setRootIndex(self.model.index(dirpath))
+
+    def show_context_menu(self, position):
+        file_path = self.model.filePath(self.tree.currentIndex())
+        file_name = self.model.fileName(self.tree.currentIndex())
+        editFileAction = QAction("Edit")
+        editFileMenu = QMenu(self.tree)
+        editFileMenu.addAction(editFileAction)
+        editFileMenu.exec_(self.tree.mapToGlobal(position))
+        if file_name == "bettergrass.properties":
+            editFileAction.triggered.connect(self.open_bettergrassDialog)
+
+    def edit_file(self, index):
+        file_path = self.model.filePath(index)
+        file_name = self.model.fileName(index)
+        if file_name == "bettergrass.properties":
+            print("bettergrass")
+            self.open_bettergrassDialog()
+
+    def open_bettergrassDialog(self):
+        print("bettergrass")
+        # self.path + "/assets/minecraft/optifine/bettergrass.properties"
+        # bg = parse_bettergrass(self.path + "/assets/minecraft/optifine/bettergrass.properties")
+        # print(bg)
+        bettergrassDialog = BetterGrassDialog(self.path + "/assets/minecraft/optifine/bettergrass.properties")
+        return(bettergrassDialog.exec())
+
 
 
 

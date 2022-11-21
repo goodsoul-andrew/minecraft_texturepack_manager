@@ -589,7 +589,7 @@
       <string>Random Entities</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="c_better_grass">
+    <widget class="QCheckBox" name="c_bettergrass">
      <property name="geometry">
       <rect>
        <x>10</x>

@@ -66,4 +66,52 @@ def create_bettergrass(path):
         bettergrass.write(s)
 
 
-create_better_grass("C:\Андрей\Minecraft Texturepack manager")
+def convert_bool_str(b: bool, case="uppercase"):
+    if type(b) == bool:
+        if case == "uppercase":
+            return str(b)
+        elif case == "lowercase":
+            return str(b).lower()
+    elif type(b) == str:
+        if b.capitalize() == "True" or b.capitalize() == "False":
+            return bool(b)
+        else:
+            raise ValueError
+    else:
+        raise TypeError
+
+
+def parse_bettergrass(path):
+    with open(path, "r") as file:
+        bettergrass = file.readlines()
+        r = dict()
+        r["grass"] = convert_bool_str(bettergrass[0][bettergrass[0].index("=") + 1:].strip())
+        r["dirt_path"] = convert_bool_str(bettergrass[1][bettergrass[1].index("=") + 1:].strip())
+        r["mycelium"] = convert_bool_str(bettergrass[2][bettergrass[2].index("=") + 1:].strip())
+        r["podzol"] = convert_bool_str(bettergrass[3][bettergrass[3].index("=") + 1:].strip())
+        r["crimson_nylium"] = convert_bool_str(bettergrass[4][bettergrass[4].index("=") + 1:].strip())
+        r["warped_nylium"] = convert_bool_str(bettergrass[5][bettergrass[5].index("=") + 1:].strip())
+        r["grass_snow"] = convert_bool_str(bettergrass[6][bettergrass[6].index("=") + 1:].strip())
+        r["mycelium_snow"] = convert_bool_str(bettergrass[7][bettergrass[7].index("=") + 1:].strip())
+        r["podzol_snow"] = convert_bool_str(bettergrass[8][bettergrass[8].index("=") + 1:].strip())
+        r["texture.grass"] = bettergrass[9][bettergrass[9].index("=") + 1:].strip()
+        r["texture.grass_side"] = bettergrass[10][bettergrass[10].index("=") + 1:].strip()
+        r["texture.dirt_path"] = bettergrass[11][bettergrass[11].index("=") + 1:].strip()
+        r["texture.dirt_path_side"] = bettergrass[12][bettergrass[12].index("=") + 1:].strip()
+        r["texture.mycelium"] = bettergrass[13][bettergrass[13].index("=") + 1:].strip()
+        r["texture.podzol"] = bettergrass[14][bettergrass[14].index("=") + 1:].strip()
+        r["texture.crimson_nylium"] = bettergrass[15][bettergrass[15].index("=") + 1:].strip()
+        r["texture.warped_nylium"] = bettergrass[16][bettergrass[16].index("=") + 1:].strip()
+        r["texture.snow"] = bettergrass[17][bettergrass[17].index("=") + 1:].strip()
+        return r
+
+
+def convert_texture_path(path):
+    p = path.split("/")
+    res = "/".join(p[p.index("minecraft") + 2:])
+    return res[:res.index(".")]
+
+def convert_pack_path(path):
+    p = path.split("/")
+    return "/".join(p[:p.index("minecraft") + 1])
+
