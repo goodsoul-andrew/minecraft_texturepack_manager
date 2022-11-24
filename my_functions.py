@@ -1,4 +1,6 @@
 from io import BytesIO
+from sqlite3 import connect
+from os import mkdir
 
 
 def from_list_to_dict(lst, item):
@@ -50,19 +52,26 @@ def copy_file(path, new_path):
             new.write(BytesIO(temp).getbuffer())
 
 
-def create_bettergrass(path):
+def create_bettergrass(path, bg=[]):
     with open(path + "/bettergrass.properties", "w") as bettergrass:
-        s = "grass=true\ndirt_path=true\nmycelium=true\npodzol=true\ncrimson_nylium=true\nwarped_nylium=true\n"
-        s += "grass.snow=true\nmycelium.snow=true\npodzol.snow=true\n"
-        s += "texture.grass=block/grass_block_top\n"
-        s += "texture.grass_side=block/grass_block_side\n"
-        s += "texture.dirt_path=block/dirt_path_top\n"
-        s += "texture.dirt_path_side=block/dirt_path_side\n"
-        s += "texture.mycelium=block/mycelium_top\n"
-        s += "texture.podzol=block/podzol_top\n"
-        s += "texture.crimson_nylium=block/crimson_nylium\n"
-        s += "texture.warped_nylium=block/warped_nylium\n"
-        s += "texture.snow=block/snow"
+        if bg:
+            s = ""
+            for el in bg:
+                temp = el + "=" + bg[el] + "\n"
+                s += temp
+            s = s.strip()
+        else:
+            s = "grass=true\ndirt_path=true\nmycelium=true\npodzol=true\ncrimson_nylium=true\nwarped_nylium=true\n"
+            s += "grass.snow=true\nmycelium.snow=true\npodzol.snow=true\n"
+            s += "texture.grass=block/grass_block_top\n"
+            s += "texture.grass_side=block/grass_block_side\n"
+            s += "texture.dirt_path=block/dirt_path_top\n"
+            s += "texture.dirt_path_side=block/dirt_path_side\n"
+            s += "texture.mycelium=block/mycelium_top\n"
+            s += "texture.podzol=block/podzol_top\n"
+            s += "texture.crimson_nylium=block/crimson_nylium\n"
+            s += "texture.warped_nylium=block/warped_nylium\n"
+            s += "texture.snow=block/snow"
         bettergrass.write(s)
 
 
@@ -91,9 +100,9 @@ def parse_bettergrass(path):
         r["podzol"] = convert_bool_str(bettergrass[3][bettergrass[3].index("=") + 1:].strip())
         r["crimson_nylium"] = convert_bool_str(bettergrass[4][bettergrass[4].index("=") + 1:].strip())
         r["warped_nylium"] = convert_bool_str(bettergrass[5][bettergrass[5].index("=") + 1:].strip())
-        r["grass_snow"] = convert_bool_str(bettergrass[6][bettergrass[6].index("=") + 1:].strip())
-        r["mycelium_snow"] = convert_bool_str(bettergrass[7][bettergrass[7].index("=") + 1:].strip())
-        r["podzol_snow"] = convert_bool_str(bettergrass[8][bettergrass[8].index("=") + 1:].strip())
+        r["grass.snow"] = convert_bool_str(bettergrass[6][bettergrass[6].index("=") + 1:].strip())
+        r["mycelium.snow"] = convert_bool_str(bettergrass[7][bettergrass[7].index("=") + 1:].strip())
+        r["podzol.snow"] = convert_bool_str(bettergrass[8][bettergrass[8].index("=") + 1:].strip())
         r["texture.grass"] = bettergrass[9][bettergrass[9].index("=") + 1:].strip()
         r["texture.grass_side"] = bettergrass[10][bettergrass[10].index("=") + 1:].strip()
         r["texture.dirt_path"] = bettergrass[11][bettergrass[11].index("=") + 1:].strip()
@@ -115,3 +124,45 @@ def convert_pack_path(path):
     p = path.split("/")
     return "/".join(p[:p.index("minecraft") + 1])
 
+
+def entities_list():
+    return data_list("mobs")
+
+def data_list(table):
+    con = connect("MobsDB.db")
+    cur = con.cursor()
+    result = cur.execute(f"""SELECT name FROM {table}""").fetchall()
+    return [el[0] for el in result]
+
+
+def create_random_entity(path: str, paragraphs):
+    p = [str(paragraphs[i]) for i in paragraphs]
+    try:
+        with open(path, "w") as file:
+            s = "\n\n".join(p)
+            file.write(s)
+    except FileNotFoundError:
+        paths = path.split("/")
+        print(paths)
+        mkdir("/".join(paths[:-1]))
+        try:
+            with open(path, "w") as file:
+                s = "\n\n".join(p)
+                file.write(s)
+        except FileNotFoundError:
+            mkdir("/".join(paths[:-1]))
+            with open(path, "w") as file:
+                s = "\n\n".join(p)
+                file.write(s)
+        except FileExistsError:
+            with open(path, "w") as file:
+                s = "\n\n".join(p)
+                file.write(s)
+
+
+def get_entity_path(name):
+    con = connect("MobsDB.db")
+    cur = con.cursor()
+    result = cur.execute(f"""SELECT path FROM mobs 
+                                WHERE name = '{name}'""").fetchall()
+    return result[0][0]

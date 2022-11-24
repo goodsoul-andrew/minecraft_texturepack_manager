@@ -35,6 +35,9 @@ class TexturepackManager(QMainWindow):
         self.editTexturepackAction.setShortcut("Ctrl+E")
         self.editTexturepackAction.setStatusTip("Edit texturepack")
 
+        self.createRandomEntityAction = QAction("Add random entity", self)
+        self.createRandomEntityAction.setStatusTip("Create file that configures textures of entity")
+
     def createMenuBar(self):
         menuBar = self.menuBar()
         fileMenu = QMenu("File", self)
@@ -44,16 +47,18 @@ class TexturepackManager(QMainWindow):
         editMenu = QMenu("Edit", self)
         helpMenu = QMenu("Help", self)
         menuBar.addMenu(fileMenu)
+
         editMenu = menuBar.addMenu("Edit")
-        helpMenu = menuBar.addMenu("Help")
+        editMenu.addAction(self.createRandomEntityAction)
 
     def connectActions(self):
         self.newAction.triggered.connect(self.open_newDialog)
         self.openAction.triggered.connect(self.open_openDialog)
+        self.createRandomEntityAction.triggered.connect(self.open_randomentityDialog)
 
     def open_newDialog(self):
         newDialog = NewDialog()
-        print(newDialog.exec())
+        newDialog.exec()
         if newDialog.result():
             self.path = newDialog.path
             self.version = newDialog.version
@@ -86,18 +91,18 @@ class TexturepackManager(QMainWindow):
         file_path = self.model.filePath(index)
         file_name = self.model.fileName(index)
         if file_name == "bettergrass.properties":
-            print("bettergrass")
             self.open_bettergrassDialog()
 
     def open_bettergrassDialog(self):
-        print("bettergrass")
         # self.path + "/assets/minecraft/optifine/bettergrass.properties"
         # bg = parse_bettergrass(self.path + "/assets/minecraft/optifine/bettergrass.properties")
         # print(bg)
         bettergrassDialog = BetterGrassDialog(self.path + "/assets/minecraft/optifine/bettergrass.properties")
         return(bettergrassDialog.exec())
 
-
+    def open_randomentityDialog(self):
+        randomentityDialog = RandomEntityDialog(self.path + "/assets/minecraft/optifine/random/entity/")
+        return (randomentityDialog.exec())
 
 
 

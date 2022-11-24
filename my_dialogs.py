@@ -4,6 +4,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
 from my_functions import *
+from sqlite3 import connect
+from my_classes import RandomEntityParagraph
 
 
 class NewDialog(QDialog):
@@ -147,6 +149,7 @@ class BetterGrassDialog(QDialog):
         self.open_path = convert_pack_path(path + "/textures")
         uic.loadUi("BetterGrassDialogUI.ui", self)
         self.setWindowTitle("Edit bettergrass.properties")
+        self.bg = parse_bettergrass(self.path)
         self.setup_checkboxes()
         self.setup_labels()
         self.grass_pathbutton.clicked.connect(self.change_grass_path)
@@ -163,99 +166,259 @@ class BetterGrassDialog(QDialog):
         self.buttonBox.accepted.connect(self.reject)
 
     def setup_checkboxes(self):
-        path = self.path
-        print(path)
-        bg = parse_bettergrass(path)
-        print(bg)
-        if bg["grass"] == True:
+        if self.bg["grass"] == True:
             self.c_grass.setCheckState(2)
         else:
             self.c_grass.setCheckState(0)
-        if bg["dirt_path"] == True:
+        if self.bg["dirt_path"] == True:
             self.c_dirt_path.setCheckState(2)
         else:
             self.c_dirt_path.setCheckState(0)
-        if bg["mycelium"] == True:
+        if self.bg["mycelium"] == True:
             self.c_mycelium.setCheckState(2)
         else:
             self.c_mycelium.setCheckState(0)
-        if bg["podzol"] == True:
+        if self.bg["podzol"] == True:
             self.c_podzol.setCheckState(2)
         else:
             self.c_podzol.setCheckState(0)
-        if bg["crimson_nylium"] == True:
+        if self.bg["crimson_nylium"] == True:
             self.c_crimson_nylium.setCheckState(2)
         else:
             self.c_crimson_nylium.setCheckState(0)
-        if bg["warped_nylium"] == True:
+        if self.bg["warped_nylium"] == True:
             self.c_warped_nylium.setCheckState(2)
         else:
             self.c_warped_nylium.setCheckState(0)
-        if bg["grass_snow"] == True:
+        if self.bg["grass.snow"] == True:
             self.c_grass_snow.setCheckState(2)
         else:
             self.c_grass_snow.setCheckState(0)
-        if bg["mycelium_snow"] == True:
+        if self.bg["mycelium.snow"] == True:
             self.c_mycelium_snow.setCheckState(2)
         else:
             self.c_mycelium_snow.setCheckState(0)
-        if bg["podzol_snow"] == True:
+        if self.bg["podzol.snow"] == True:
             self.c_podzol_snow.setCheckState(2)
         else:
             self.c_podzol_snow.setCheckState(0)
 
     def setup_labels(self):
-        path = self.path
-        bg = parse_bettergrass(path)
-        self.grass_pathview.setText(bg["texture.grass"])
-        self.grass_side_pathview.setText(bg["texture.grass_side"])
-        self.dirt_path_pathview.setText(bg["texture.dirt_path"])
-        self.dirt_path_side_pathview.setText(bg["texture.dirt_path_side"])
-        self.mycelium_pathview.setText(bg["texture.mycelium"])
-        self.podzol_pathview.setText(bg["texture.podzol"])
-        self.crimson_nylium_pathview.setText(bg["texture.crimson_nylium"])
-        self.warped_nylium_pathview.setText(bg["texture.warped_nylium"])
-        self.snow_pathview.setText(bg["texture.snow"])
+        self.grass_pathview.setText(self.bg["texture.grass"])
+        self.grass_side_pathview.setText(self.bg["texture.grass_side"])
+        self.dirt_path_pathview.setText(self.bg["texture.dirt_path"])
+        self.dirt_path_side_pathview.setText(self.bg["texture.dirt_path_side"])
+        self.mycelium_pathview.setText(self.bg["texture.mycelium"])
+        self.podzol_pathview.setText(self.bg["texture.podzol"])
+        self.crimson_nylium_pathview.setText(self.bg["texture.crimson_nylium"])
+        self.warped_nylium_pathview.setText(self.bg["texture.warped_nylium"])
+        self.snow_pathview.setText(self.bg["texture.snow"])
 
     def change_grass_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.grass_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.grass_pathview.setText(convert_texture_path(new))
 
     def change_grass_side_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.grass_side_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.grass_side_pathview.setText(convert_texture_path(new))
 
     def change_dirt_path_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.dirt_path_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.dirt_path_pathview.setText(convert_texture_path(new))
 
     def change_dirt_path_side_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.dirt_path_side_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.dirt_path_side_pathview.setText(convert_texture_path(new))
 
     def change_mycelium_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.mycelium_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.mycelium_pathview.setText(convert_texture_path(new))
 
     def change_podzol_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.podzol_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.podzol_pathview.setText(convert_texture_path(new))
 
     def change_crimson_nylium_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.crimson_nylium_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.crimson_nylium_pathview.setText(convert_texture_path(new))
 
     def change_warped_nylium_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.warped_nylium_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.warped_nylium_pathview.setText(convert_texture_path(new))
 
     def change_snow_path(self):
         new = QFileDialog.getOpenFileName(self, 'Choose icon', self.open_path)[0]
-        self.snow_nylium_pathview.setText(convert_texture_path(new))
+        if "assets/minecraft" in new:
+            self.snow_nylium_pathview.setText(convert_texture_path(new))
 
     def change_bettergrass(self):
-        pass
+        self.bg["grass"] = convert_bool_str(self.c_grass.isChecked(), case="lowercase")
+        self.bg["dirt_path"] = convert_bool_str(self.c_dirt_path.isChecked(), case="lowercase")
+        self.bg["mycelium"] = convert_bool_str(self.c_mycelium.isChecked(), case="lowercase")
+        self.bg["podzol"] = convert_bool_str(self.c_podzol.isChecked(), case="lowercase")
+        self.bg["crimson_nylium"] = convert_bool_str(self.c_crimson_nylium.isChecked(), case="lowercase")
+        self.bg["warped_nylium"] = convert_bool_str(self.c_warped_nylium.isChecked(), case="lowercase")
+        self.bg["grass.snow"] = convert_bool_str(self.c_grass_snow.isChecked(), case="lowercase")
+        self.bg["mycelium.snow"] = convert_bool_str(self.c_mycelium_snow.isChecked(), case="lowercase")
+        self.bg["podzol.snow"] = convert_bool_str(self.c_podzol_snow.isChecked(), case="lowercase")
+
+        self.bg["texture.grass"] = self.grass_pathview.text()
+        self.bg["texture.grass_side"] = self.grass_side_pathview.text()
+        self.bg["texture.dirt_path"] = self.dirt_path_pathview.text()
+        self.bg["texture.dirt_path_side"] = self.dirt_path_side_pathview.text()
+        self.bg["texture.mycelium"] = self.mycelium_pathview.text()
+        self.bg["texture.podzol"] = self.podzol_pathview.text()
+        self.bg["texture.crimson_nylium"] = self.crimson_nylium_pathview.text()
+        self.bg["texture.warped_nylium"] = self.warped_nylium_pathview.text()
+        self.bg["texture.snow"] = self.snow_pathview.text()
+        new_path = self.path[:self.path.rfind("/")]
+        create_bettergrass(new_path, self.bg)
+
 
     def hello(self):
         print("hello")
+
+
+class RandomEntityDialog(QDialog):
+    def __init__(self, path):
+        super().__init__()
+        uic.loadUi("RandomEntityDialog2UI.ui", self)
+        self.setup_entityinput()
+        self.paragraphs = dict()
+        self.path = path
+        self.current = 0
+        self.biomesbutton.clicked.connect(self.open_biomeinput)
+        self.professionsbutton.clicked.connect(self.open_professionsinput)
+        self.colorsbutton.clicked.connect(self.open_colorsinput)
+        self.weatherbutton.clicked.connect(self.open_weatherinput)
+        self.addbutton.clicked.connect(self.add_paragraph)
+        self.commitbutton.clicked.connect(self.edit_current_paragraph)
+        self.deletebutton.clicked.connect(self.delete_last_paragraph)
+        self.paragraphsview.itemClicked.connect(self.setup_current_paragraph)
+        self.buttonBox.accepted.connect(self.create_random_entity_properties)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+
+    def setup_entityinput(self):
+        entities = entities_list()
+        self.entityinput.addItems(entities)
+
+    def add_paragraph(self):
+        n = len(self.paragraphs) + 1
+        self.paragraphs[n] = RandomEntityParagraph(n, [])
+        self.paragraphsview.addItem(str(n))
+        print(self.paragraphs)
+
+    def delete_last_paragraph(self):
+        n = int(self.paragraphsview.takeItem(len(self.paragraphs) - 1).text())
+        self.paragraphs.pop(n)
+
+    def setup_current_paragraph(self):
+        self.current = int(self.paragraphsview.currentItem().text())
+        # print(self.paragraphs[self.current])
+        # print(self.current)
+        self.texturesinput.setText(self.paragraphs[self.current].textures_str())
+        self.weightsinput.setText(self.paragraphs[self.current].weights)
+        self.heightsinput.setText(self.paragraphs[self.current].heights)
+        self.nameinput.setText(self.paragraphs[self.current].name)
+        if self.paragraphs[self.current].baby:
+            self.c_baby.setCheckState(2)
+        else:
+            self.c_baby.setCheckState(0)
+        self.healthinput.setText(self.paragraphs[self.current].health)
+        self.mooninput.setText(self.paragraphs[self.current].moon_phase)
+        self.timeinput.setText(self.paragraphs[self.current].day_time)
+        self.sizesinput.setText(self.paragraphs[self.current].sizes)
+
+    def edit_current_paragraph(self):
+        self.current = int(self.paragraphsview.currentItem().text())
+        c = self.current
+        self.paragraphs[c].textures = self.texturesinput.text()
+        self.paragraphs[c].weights = self.weightsinput.text()
+        self.paragraphs[c].heights = self.heightsinput.text()
+        self.paragraphs[c].name = self.nameinput.text()
+        self.paragraphs[c].moon_phase = self.mooninput.text()
+        self.paragraphs[c].day_time = self.timeinput.text()
+        self.paragraphs[c].health = self.healthinput.text()
+        self.paragraphs[c].sizes = self.sizesinput.text()
+        self.paragraphs[c].baby = self.c_baby.isChecked()
+
+    def open_biomeinput(self):
+        # print(self.current, self.paragraphs[self.current].biomes)
+        biomeinput = MultipleSelectionDialog("biomes", self.paragraphs[self.current].biomes)
+        biomeinput.exec()
+        self.paragraphs[self.current].biomes += biomeinput.selected.copy()
+
+    def open_professionsinput(self):
+        if "villager" in self.entityinput.currentText():
+            professionsinput = MultipleSelectionDialog("professions", self.paragraphs[self.current].professions)
+            professionsinput.exec()
+            p = professionsinput.selected.copy()
+            for el in p:
+                el += ":" + self.levelinput.text()
+            self.paragraphs[self.current].professions += p
+        else:
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("Parameter is not available for this entity")
+            dlg.setText("Only villagers have professions!")
+            dlg.exec()
+
+    def open_colorsinput(self):
+        text = self.entityinput.currentText()
+        if "cat" in text or "wolf" in text or "shulker" in text or "llama" in text:
+            colorsinput = MultipleSelectionDialog("colors", self.paragraphs[self.current].colors)
+            colorsinput.exec()
+            c = colorsinput.selected.copy()
+            self.paragraphs[self.current].colors += c
+        else:
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("Parameter is not available for this entity")
+            dlg.setText("Only cats, tamed wolves, llamas and shulkers have colors!")
+            dlg.exec()
+
+    def open_weatherinput(self):
+        weatherinput = MultipleSelectionDialog("weather", self.paragraphs[self.current].weather)
+        weatherinput.exec()
+        self.paragraphs[self.current].weather += weatherinput.selected
+
+    def create_random_entity_properties(self):
+        for el in self.paragraphs:
+            print(str(self.paragraphs[el]))
+        new_path = self.path + get_entity_path(self.entityinput.currentText())
+        create_random_entity(new_path, self.paragraphs)
+
+class MultipleSelectionDialog(QDialog):
+    def __init__(self, table, already_selected):
+        super().__init__()
+        uic.loadUi("MultipleSelectionDialogUI.ui", self)
+        data = data_list(table)
+        self.selected = []
+        for el in data:
+            self.listWidget.addItem(QListWidgetItem(el))
+        if already_selected:
+            for i in range(self.listWidget.count() - 1):
+                if self.listWidget.item(i).text() in already_selected:
+                    self.listWidget.item(i).setSelected(True)
+        self.buttonBox.accepted.connect(self.end)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+    def end(self):
+        items = self.listWidget.selectedItems()
+        x = []
+        for i in range(len(items)):
+            x.append(str(self.listWidget.selectedItems()[i].text()))
+        self.selected += x
+        print(self.selected)
+
+
 
