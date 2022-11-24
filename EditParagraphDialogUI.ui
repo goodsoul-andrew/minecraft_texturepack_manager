@@ -13,269 +13,144 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>250</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="skinsinput">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>10</y>
-     <width>341</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="skinslabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>61</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string>skins</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="weightslabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>61</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string>weights</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="heightslabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>61</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string>heights</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="namelabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>100</y>
-     <width>61</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string>name</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="moonlabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>130</y>
-     <width>61</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string>moonPhase</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="timelabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>160</y>
-     <width>61</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string>dayTime</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="sizeslabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>190</y>
-     <width>61</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Box</enum>
-   </property>
-   <property name="text">
-    <string>sizes</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="weightsinput">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>40</y>
-     <width>341</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="heightsinput">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>70</y>
-     <width>341</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="nameinput">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>100</y>
-     <width>341</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="mooninput">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>130</y>
-     <width>341</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="timeinput">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>160</y>
-     <width>341</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="sizesinput">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>190</y>
-     <width>341</width>
-     <height>16</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="biomesbutton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>220</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>biomes</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="colorsbutton">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>220</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>colors</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="professionsbutton">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>220</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>professions</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="weatherbutton">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>220</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>weather</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="c_baby">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>220</y>
-     <width>51</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>baby</string>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="skinslabel">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>skins</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="5">
+    <widget class="QLineEdit" name="skinsinput"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="weightslabel">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>weights</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="5">
+    <widget class="QLineEdit" name="weightsinput"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="heightslabel">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>heights</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="5">
+    <widget class="QLineEdit" name="heightsinput"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="namelabel">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="5">
+    <widget class="QLineEdit" name="nameinput"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="moonlabel">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>moonPhase</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="5">
+    <widget class="QLineEdit" name="mooninput"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="timelabel">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>dayTime</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" colspan="5">
+    <widget class="QLineEdit" name="timeinput"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="sizeslabel">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>sizes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1" colspan="5">
+    <widget class="QLineEdit" name="sizesinput"/>
+   </item>
+   <item row="7" column="0" colspan="2">
+    <widget class="QPushButton" name="biomesbutton">
+     <property name="text">
+      <string>biomes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="QPushButton" name="colorsbutton">
+     <property name="text">
+      <string>colors</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="3">
+    <widget class="QPushButton" name="professionsbutton">
+     <property name="text">
+      <string>professions</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="4">
+    <widget class="QPushButton" name="weatherbutton">
+     <property name="text">
+      <string>weather</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="5">
+    <widget class="QCheckBox" name="c_baby">
+     <property name="text">
+      <string>baby</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1" colspan="5">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections>

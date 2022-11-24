@@ -4,14 +4,18 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
 from PyQt5.Qt import *
-from my_functions import *
 from my_dialogs import *
+from TexturepackManagerUI import UI_MainWindow
+from NewDialog import NewDialog
+from BetterGrassDialog import BetterGrassDialog
+from RandomEntityDialog import RandomEntityDialog
 
 
-class TexturepackManager(QMainWindow):
+class TexturepackManager(QMainWindow, UI_MainWindow):
     def __init__(self):
         super(TexturepackManager, self).__init__()
-        uic.loadUi('TexturepackManagerUI.ui', self)
+        # uic.loadUi('TexturepackManagerUI.ui', self)
+        self.setupUi(self)
         self.title = "Texturepack manager"
         self.createActions()
         self.connectActions()
